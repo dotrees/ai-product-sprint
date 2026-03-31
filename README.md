@@ -29,6 +29,13 @@ AI Product Sprint 是一个 CLI 工具，它协调多个 AI 代理（Planner、G
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green.svg)
 ![Claude SDK](https://img.shields.io/badge/Claude%20SDK-Agent%20SDK-purple.svg)
 
+## Inspired By
+
+AI Product Sprint 基于以下资源构建：
+
+- [Anthropic Agent SDK (Python)](https://platform.claude.com/docs/en/agent-sdk/python) — Claude Agent SDK 官方文档
+- [Harness Design for Long-Running Apps](https://www.anthropic.com/engineering/harness-design-long-running-apps) — Anthropic 关于 Agent SDK 架构设计的工程博客
+
 **Generated Applications**
 ![React](https://img.shields.io/badge/React-19.2.4-61DAFB.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)
