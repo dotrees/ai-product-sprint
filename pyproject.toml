@@ -26,5 +26,8 @@ aisprint = "src.cli:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
+[tool.ruff]
+ignore = ["F541"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
