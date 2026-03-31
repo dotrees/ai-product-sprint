@@ -2,7 +2,6 @@
 
 import argparse
 import asyncio
-import re
 import sys
 
 from .core.orchestrator import run_sprint
@@ -16,9 +15,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s "做一个 Todo 应用"
-  %(prog)s "我想做一个 Pinterest 一样的图片收藏网站"
-  %(prog)s --project my-app "做一个博客系统"
+  %(prog)s --project my-app "做一个 Todo 应用"
+  %(prog)s --project pinterest "做一个 Pinterest 一样的图片收藏网站"
+  %(prog)s --project blog "做一个博客系统"
         """,
     )
 
@@ -31,7 +30,8 @@ Examples:
     parser.add_argument(
         "--project",
         "-p",
-        help="Project name (default: auto-generated from idea)",
+        required=True,
+        help="Project name (required)",
     )
 
     parser.add_argument(
@@ -48,7 +48,7 @@ Examples:
     idea = " ".join(args.idea)
 
     # 项目名
-    project_name = args.project or _generate_project_name(idea)
+    project_name = args.project
 
     # 运行 Sprint
     print(f"\n🎯 Product Idea: {idea}")
@@ -62,22 +62,6 @@ Examples:
 
     # 返回退出码
     sys.exit(0 if result.success else 1)
-
-
-def _generate_project_name(idea: str) -> str:
-    """从想法生成项目名."""
-    # 取前几个关键词
-    words = re.findall(r"\w+", idea)
-    if len(words) <= 3:
-        name = "-".join(words)
-    else:
-        name = "-".join(words[:3])
-
-    # 清理
-    name = re.sub(r"[^\w-]", "", name)
-    name = name.lower()[:30]
-
-    return name or "ai-product"
 
 
 if __name__ == "__main__":

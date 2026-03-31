@@ -57,10 +57,10 @@ uv pip install -e .
 
 ```bash
 # 使用 CLI 运行
-python -m src.cli "做一个 Todo 应用，支持项目管理、习惯追踪、数据分析"
+python -m src.cli --project todo-app "做一个 Todo 应用，支持项目管理、习惯追踪、数据分析"
 
 # 或安装后直接使用
-aisprint "做一个 Pinterest 一样的图片收藏网站"
+aisprint --project pinterest "做一个 Pinterest 一样的图片收藏网站"
 ```
 
 ### 工作流程
