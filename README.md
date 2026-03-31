@@ -39,10 +39,15 @@ AI Product Sprint 是一个 CLI 工具，它协调多个 AI 代理（Planner、G
 ## Installation
 
 ```bash
-# 安装依赖
-pip install -e .
+# 创建虚拟环境（使用 uv）
+uv venv --python 3.12
 
-# 或使用 uv
+# 激活虚拟环境
+source .venv/bin/activate  # Linux/macOS
+# 或
+.venv\Scripts\activate     # Windows
+
+# 安装依赖
 uv pip install -e .
 ```
 
