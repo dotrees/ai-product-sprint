@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# macOS
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Claude Code (local settings)
+.claude/settings.local.json
+
+# Build outputs
+*.egg
+*.whl
+
+# Generated applications (runtime output)
+output/
+
+# Environment
+.env
+.env.local
+.env.*.local
