@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from claude_agent_sdk import ClaudeSDKClient, ClaudeAgentOptions, AssistantMessage, TextBlock, ToolUseBlock, ToolResultBlock, ResultMessage
+from claude_agent_sdk import ClaudeSDKClient, ClaudeAgentOptions, AssistantMessage, ToolUseBlock
 from claude_agent_sdk.types import StreamEvent
 
 from ..core.config import config
@@ -11,6 +11,8 @@ from ..core.config import config
 PLANNER_PROMPT = """你是一个产品规划专家。
 
 你的任务是将用户的简单想法（1-4句话）扩展为完整的产品规格。
+
+项目输出目录：{project_dir}
 
 用户想法：{user_idea}
 
@@ -27,7 +29,7 @@ PLANNER_PROMPT = """你是一个产品规划专家。
 - 寻找将 AI 功能融入产品的机会
 - 专注于高层设计，不要陷入实现细节
 
-请将完整规格输出到 SPEC.md 文件，格式为 Markdown。"""
+请将完整规格输出到 {project_dir}/SPEC.md 文件，格式为 Markdown。"""
 
 
 class PlannerAgent:
@@ -50,7 +52,7 @@ class PlannerAgent:
 
     async def run(self, user_idea: str, stream_handler=None) -> Path:
         """根据用户想法生成产品规格."""
-        prompt = PLANNER_PROMPT.format(user_idea=user_idea)
+        prompt = PLANNER_PROMPT.format(user_idea=user_idea, project_dir=str(self.project_dir))
 
         async with self._create_client() as client:
             await client.query(prompt)

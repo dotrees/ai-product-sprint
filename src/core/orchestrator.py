@@ -32,7 +32,7 @@ class StreamHandler:
             file_path = block.input.get("file_path", "unknown")
             StreamHandler.print_progress(f"📖 读取文件: {file_path}")
         elif name == "Bash":
-            command = block.input.get("command", "")[:50]
+            command = block.input.get("command", "")[:100]
             StreamHandler.print_progress(f"⚡ 执行命令: {command}...")
         elif name == "Edit":
             file_path = block.input.get("file_path", "unknown")
@@ -40,6 +40,17 @@ class StreamHandler:
         elif name == "Glob":
             pattern = block.input.get("pattern", "")
             StreamHandler.print_progress(f"🔍 搜索文件: {pattern}")
+        elif name == "Grep":
+            pattern = block.input.get("pattern", "")
+            path = block.input.get("path", "")
+            StreamHandler.print_progress(f"🔎 Grep: {pattern} in {path}")
+        elif name == "TodoWrite":
+            todos = block.input.get("todos", [])
+            if todos:
+                # 显示当前正在进行的任务
+                in_progress = [t for t in todos if t.get("status") == "in_progress"]
+                if in_progress:
+                    StreamHandler.print_progress(f"📋 进行中: {in_progress[0].get('activeForm', in_progress[0].get('content', ''))}")
         elif name.startswith("mcp__playwright__"):
             action = name.replace("mcp__playwright__", "")
             StreamHandler.print_progress(f"🌐 Playwright: {action}")
@@ -65,6 +76,7 @@ class SprintOrchestrator:
         self.backend_process: Optional[subprocess.Popen] = None
 
         self.stream_handler = StreamHandler()
+        self._last_eval_bugs_count: int = 0
 
     def _sanitize_name(self, name: str) -> str:
         """将项目名转换为合法的目录名."""
@@ -105,7 +117,7 @@ class SprintOrchestrator:
                 files = await self.generator.run(spec_path, contract, self.stream_handler)
             else:
                 feedback = self._read_feedback()
-                print(f"🔨 Generator - 修复问题 ({len(feedback)} 项反馈)...\n")
+                print(f"🔨 Generator - 修复问题 ({self._last_eval_bugs_count} 项反馈)...\n")
                 files = await self.generator.fix(feedback, contract, self.stream_handler)
 
             print(f"\n   ✅ 生成了/修复了 {len(files)} 个文件\n")
@@ -120,6 +132,7 @@ class SprintOrchestrator:
             # 3c: Evaluator 测试
             print("🧪 Evaluator - 运行测试...\n")
             result = await self.evaluator.test(contract, self.stream_handler)
+            self._last_eval_bugs_count = len(result.bugs)
 
             # 3d: 停止服务器
             await self._stop_servers()
